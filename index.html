@@ -1,0 +1,1503 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <!-- ------ ICON ------ -->
+    <link rel="Icon" type="png" href="assets/icon.webp">
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Aprende LSV - Lengua de Señas Venezolana</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background-color: #f8f9fa;
+            color: #333;
+            overflow-x: hidden;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            max-width: 500px;
+            margin: 0 auto;
+            box-shadow: 0 0 20px rgba(0,0,0,0.1);
+        }
+
+        /* Header */
+        .header {
+            background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+            padding: 20px 15px;
+            color: white;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-content {
+            display: flex;
+            align-items: center;
+        }
+
+        .header-icon {
+            font-size: 32px;
+            margin-right: 15px;
+        }
+
+        .header-title {
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .header-subtitle {
+            font-size: 14px;
+            opacity: 0.9;
+            margin-top: 2px;
+        }
+
+        /* Main content */
+        .main-content {
+            flex: 1;
+            overflow-y: auto;
+            padding-bottom: 70px; /* Space for navigation */
+        }
+
+        .screen {
+            display: none;
+            min-height: 100%;
+            padding: 15px;
+        }
+
+        .screen.active {
+            display: block;
+        }
+
+        /* Navigation */
+        .nav-bar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background-color: white;
+            border-top: 1px solid #e9ecef;
+            display: flex;
+            justify-content: space-around;
+            padding: 10px 0;
+            max-width: 500px;
+            margin: 0 auto;
+            z-index: 100;
+        }
+
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 8px;
+            flex: 1;
+            text-decoration: none;
+            color: #999;
+        }
+
+        .nav-item.active {
+            color: #2575fc;
+        }
+
+        .nav-icon {
+            font-size: 24px;
+            margin-bottom: 4px;
+        }
+
+        .nav-text {
+            font-size: 12px;
+            font-weight: 500;
+        }
+
+        /* Learn Screen */
+        .word-header {
+            text-align: center;
+            margin-bottom: 30px;
+            margin-top: 10px;
+        }
+
+        .category {
+            background-color: #eef5ff;
+            color: #2575fc;
+            display: inline-block;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        .word {
+            font-size: 36px;
+            font-weight: bold;
+            color: #2575fc;
+        }
+
+        .gif-container {
+            background-color: #2a2a2a;
+            height: 220px;
+            border-radius: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 25px;
+            position: relative;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            border: 2px solid #2a2a2a;
+            cursor: pointer;
+            overflow: hidden;
+        }
+
+        .gif-image {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            background-color: #2a2a2a;
+        }
+
+        .gif-controls {
+            position: absolute;
+            bottom: 15px;
+            left: 0;
+            right: 0;
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            z-index: 2;
+        }
+
+        .gif-button {
+            background-color: rgba(255, 255, 255, 0.9);
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            transition: transform 0.2s;
+        }
+
+        .gif-button:hover {
+            transform: scale(1.1);
+        }
+
+        .gif-button i {
+            font-size: 18px;
+            color: #2575fc;
+        }
+
+        .navigation {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .nav-button {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 12px 20px;
+            border-radius: 25px;
+            min-width: 100px;
+            flex: 1;
+            cursor: pointer;
+            border: none;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .primary-button {
+            background-color: #2575fc;
+            color: white;
+            flex: 2;
+        }
+
+        .learned-button {
+            background-color: #4CAF50;
+        }
+
+        .outline-button {
+            background-color: white;
+            color: #2575fc;
+            border: 2px solid #2575fc;
+        }
+
+        .progress-section {
+            margin-top: auto;
+            padding-top: 20px;
+        }
+
+        .progress-stats {
+            display: flex;
+            justify-content: space-around;
+            margin-bottom: 15px;
+        }
+
+        .stat {
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 24px;
+            font-weight: bold;
+            color: #2575fc;
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            font-size: 12px;
+            color: #666;
+            font-weight: 500;
+        }
+
+        .progress-bar {
+            height: 8px;
+            background-color: #e9ecef;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background-color: #2575fc;
+            border-radius: 4px;
+            width: 0%;
+            transition: width 0.5s ease;
+        }
+
+        /* Words Screen */
+        .screen-title {
+            font-size: 24px;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 5px;
+            text-align: center;
+        }
+
+        .screen-subtitle {
+            font-size: 14px;
+            color: #666;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .words-grid {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+        }
+
+        .word-card {
+            width: calc(50% - 7.5px);
+            background-color: white;
+            padding: 20px;
+            border-radius: 15px;
+            text-align: center;
+            margin-bottom: 15px;
+            position: relative;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+            border: 1px solid #f0f0f0;
+            cursor: pointer;
+        }
+
+        .word-card.learned {
+            background-color: #e6f7ff;
+            border-color: #2575fc;
+            border-width: 2px;
+        }
+
+        .word-card-icon {
+            font-size: 40px;
+            margin-bottom: 10px;
+        }
+
+        .word-card-text {
+            font-size: 16px;
+            font-weight: 600;
+            color: #2575fc;
+            margin-bottom: 5px;
+        }
+
+        .word-card-category {
+            font-size: 12px;
+            color: #666;
+        }
+
+        .learned-badge {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background-color: #4CAF50;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            font-size: 12px;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.2);
+        }
+
+        /* Profile Screen */
+        .profile-card {
+            background-color: white;
+            padding: 25px;
+            border-radius: 20px;
+            text-align: center;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        .avatar {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background-color: #eef5ff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 0 auto 15px;
+            border: 3px solid #2575fc;
+        }
+
+        .avatar-text {
+            font-size: 40px;
+        }
+
+        .profile-name {
+            font-size: 20px;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 5px;
+        }
+
+        .profile-level {
+            font-size: 16px;
+            color: #2575fc;
+            font-weight: 600;
+            margin-bottom: 20px;
+        }
+
+        .stats-row {
+            display: flex;
+            justify-content: space-around;
+            width: 100%;
+            border-top: 1px solid #f0f0f0;
+            padding-top: 20px;
+        }
+
+        .achievement-list {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .achievement {
+            display: flex;
+            align-items: center;
+            background-color: white;
+            padding: 15px;
+            border-radius: 15px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+        }
+
+        .achievement.completed {
+            background-color: #f0f8ff;
+            border: 1px solid #2575fc;
+        }
+
+        .achievement-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 25px;
+            background-color: #f8f9fa;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-right: 15px;
+        }
+
+        .achievement-icon.completed {
+            background-color: #e6f7ff;
+        }
+
+        .achievement-info {
+            flex: 1;
+        }
+
+        .achievement-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 2px;
+        }
+
+        .achievement-desc {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 8px;
+        }
+
+        .motivation {
+            background-color: #e6f7ff;
+            padding: 20px;
+            border-radius: 15px;
+            margin-bottom: 35px;
+            border-left: 4px solid #2575fc;
+        }
+
+        .motivation-title {
+            font-size: 18px;
+            font-weight: bold;
+            color: #0066cc;
+            margin-bottom: 10px;
+        }
+
+        .motivation-text {
+            font-size: 14px;
+            line-height: 20px;
+            color: #0066cc;
+        }
+
+        /* GIF Modal */
+        .gif-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: white;
+            z-index: 200;
+            overflow-y: auto;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        .gif-modal.active {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px;
+            border-bottom: 1px solid #e9ecef;
+            flex-shrink: 0;
+        }
+
+        .close-button {
+            padding: 5px;
+            cursor: pointer;
+            font-size: 20px;
+        }
+
+        .modal-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .gif-player-container {
+            width: 100%;
+            flex: 1;
+            background-color: #000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .gif-fullscreen {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            background-color: #000;
+        }
+
+        .gif-placeholder {
+            text-align: center;
+            color: white;
+            padding: 20px;
+        }
+
+        .placeholder-icon {
+            font-size: 60px;
+            margin-bottom: 20px;
+        }
+
+        .placeholder-title {
+            font-size: 20px;
+            color: white;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .placeholder-text {
+            font-size: 16px;
+            color: rgba(255,255,255,0.9);
+            line-height: 22px;
+            margin-bottom: 20px;
+        }
+
+        .word-highlight {
+            color: #2575fc;
+            font-weight: bold;
+        }
+
+        .loading-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background-color: rgba(0,0,0,0.7);
+            color: white;
+            z-index: 2;
+        }
+
+        .loading-text {
+            margin-top: 10px;
+            font-size: 16px;
+        }
+
+        .modal-controls {
+            display: flex;
+            justify-content: center;
+            padding: 20px;
+            gap: 40px;
+            flex-shrink: 0;
+            background-color: #f8f9fa;
+        }
+
+        .control-button {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 10px;
+            cursor: pointer;
+        }
+
+        .control-icon {
+            font-size: 24px;
+            color: #2575fc;
+            margin-bottom: 5px;
+        }
+
+        .control-text {
+            font-size: 12px;
+            color: #2575fc;
+            font-weight: 500;
+        }
+
+        .tips-container {
+            padding: 20px;
+            background-color: #e6f7ff;
+            margin: 20px;
+            border-radius: 15px;
+            flex-shrink: 0;
+        }
+
+        .tips-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #0066cc;
+            margin-bottom: 10px;
+        }
+
+        .tips-text {
+            font-size: 14px;
+            line-height: 20px;
+            color: #0066cc;
+        }
+
+        /* GIF Status */
+        .gif-status {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background-color: rgba(0, 0, 0, 0.7);
+            color: white;
+            padding: 5px 10px;
+            border-radius: 15px;
+            font-size: 12px;
+            z-index: 2;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 500px) {
+            .word-card {
+                width: calc(50% - 5px);
+                padding: 15px;
+            }
+            
+            .nav-button {
+                padding: 10px 15px;
+                min-width: 80px;
+            }
+            
+            .gif-container {
+                height: 200px;
+            }
+        }
+
+        @media (max-width: 400px) {
+            .navigation {
+                flex-direction: column;
+            }
+            
+            .nav-button {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <div class="header">
+        <div class="header-content">
+            <div class="header-icon">🎓</div>
+            <div>
+                <div class="header-title">Aprende LSV</div>
+                <div class="header-subtitle">Lengua de Señas Venezolana</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Learn Screen -->
+        <div id="learn-screen" class="screen active">
+            <div class="word-header">
+                <div class="category" id="word-category">Instituciones</div>
+                <div class="word" id="current-word">UNELLEZ</div>
+            </div>
+
+            <div class="gif-container">
+                <img id="gif-preview" class="gif-image" src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExeG4xY3p6bXV3N2k4cHp2c2tla2RwdTg0aHFlbGh6ZnlmNzN4Zmw0dSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/26tknCqiJr3l2XeQE/giphy.gif" alt="LSV GIF">
+                <div class="gif-status" id="gif-status">Reproduciendo</div>
+                <div class="gif-controls">
+                    <button class="gif-button" id="restart-gif">
+                        <i class="fas fa-redo"></i>
+                    </button>
+                    <button class="gif-button" id="play-pause-gif">
+                        <i class="fas fa-pause"></i>
+                    </button>
+                </div>
+            </div>
+
+            <div class="navigation">
+                <button class="nav-button outline-button" id="prev-btn">
+                    <i class="fas fa-chevron-left"></i> Anterior
+                </button>
+                <button class="nav-button primary-button" id="mark-learned-btn">
+                    Marcar como<br>completado
+                </button>
+                <button class="nav-button outline-button" id="next-btn">
+                    Siguiente <i class="fas fa-chevron-right"></i>
+                </button>
+            </div>
+
+            <div class="progress-section">
+                <div class="progress-stats">
+                    <div class="stat">
+                        <div class="stat-number" id="learned-count">0</div>
+                        <div class="stat-label">Aprendidas</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-number" id="remaining-count">20</div>
+                        <div class="stat-label">Por aprender</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-number" id="progress-percent">0%</div>
+                        <div class="stat-label">Progreso</div>
+                    </div>
+                </div>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progress-fill"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Words Screen -->
+        <div id="words-screen" class="screen">
+            <div class="screen-title">Todas las palabras</div>
+            <div class="screen-subtitle" id="words-subtitle">0 de 20 palabras aprendidas</div>
+            
+            <div class="words-grid" id="words-container">
+                <!-- Words will be populated by JavaScript -->
+            </div>
+        </div>
+
+        <!-- Profile Screen -->
+        <div id="profile-screen" class="screen">
+            <div class="screen-title">Mi Progreso</div>
+            
+            <div class="profile-card">
+                <div class="avatar">
+                    <div class="avatar-text">👤</div>
+                </div>
+                <div class="profile-name">Aprendiz de Señas</div>
+                <div class="profile-level" id="profile-level">Nivel 1</div>
+                
+                <div class="progress-circle">
+                    <div class="stat-number" id="profile-progress">0%</div>
+                    <div class="stat-label">Completado</div>
+                </div>
+                
+                <div class="stats-row">
+                    <div class="stat">
+                        <div class="stat-number" id="profile-learned">0</div>
+                        <div class="stat-label">Aprendidas</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-number" id="profile-total">20</div>
+                        <div class="stat-label">Total</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-number" id="profile-level-num">1</div>
+                        <div class="stat-label">Nivel</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="achievements">
+                <div class="screen-title">Logros</div>
+                <div class="achievement-list" id="achievements-list">
+                    <!-- Achievements will be populated by JavaScript -->
+                </div>
+            </div>
+
+            <div class="motivation">
+                <div class="motivation-title">¡Sigue así! 🎉</div>
+                <div class="motivation-text" id="motivation-text">
+                    Vas por buen camino. Sigue practicando para desbloquear todos los logros.
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Navigation Bar -->
+    <div class="nav-bar">
+        <a href="#" class="nav-item active" data-tab="learn">
+            <i class="fas fa-home nav-icon"></i>
+            <span class="nav-text">Aprender</span>
+        </a>
+        <a href="#" class="nav-item" data-tab="words">
+            <i class="fas fa-list nav-icon"></i>
+            <span class="nav-text">Palabras</span>
+        </a>
+        <a href="#" class="nav-item" data-tab="profile">
+            <i class="fas fa-user nav-icon"></i>
+            <span class="nav-text">Perfil</span>
+        </a>
+    </div>
+
+    <!-- GIF Modal -->
+    <div id="gif-modal" class="gif-modal">
+        <div class="modal-header">
+            <div class="close-button" id="close-modal">
+                <i class="fas fa-times"></i>
+            </div>
+            <div class="modal-title" id="modal-word-title">UNELLEZ</div>
+            <div class="placeholder"></div>
+        </div>
+        
+        <div class="gif-player-container">
+            <!-- GIF fullscreen -->
+            <img id="gif-fullscreen" class="gif-fullscreen" src="" alt="LSV GIF">
+            
+            <!-- Loading state -->
+            <div class="loading-container" id="gif-loading">
+                <div class="spinner">
+                    <i class="fas fa-spinner fa-spin fa-3x"></i>
+                </div>
+                <div class="loading-text">Cargando GIF...</div>
+            </div>
+            
+            <!-- Placeholder for words without GIF -->
+            <div class="gif-placeholder" id="gif-placeholder" style="display: none;">
+                <div class="placeholder-icon">🖼️</div>
+                <div class="placeholder-title">GIF no disponible</div>
+                <div class="placeholder-text">
+                    Próximamente tendremos el GIF para: <br>
+                    "<span class="word-highlight" id="modal-word-placeholder">UNELLEZ</span>"
+                </div>
+            </div>
+        </div>
+
+        <div class="modal-controls">
+            <div class="control-button" id="modal-restart-btn">
+                <i class="fas fa-redo control-icon"></i>
+                <span class="control-text">Reiniciar</span>
+            </div>
+            
+            <div class="control-button" id="modal-play-pause-btn">
+                <i class="fas fa-pause control-icon" id="modal-play-pause-icon"></i>
+                <span class="control-text" id="modal-play-pause-text">Pausar</span>
+            </div>
+        </div>
+
+        <div class="tips-container">
+            <div class="tips-title">💡 Consejos para practicar:</div>
+            <div class="tips-text">
+                • Mira el GIF varias veces<br>
+                • Practica frente a un espejo<br>
+                • Mantén las manos relajadas<br>
+                • Repite hasta sentirte cómodo
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Words data - AHORA con GIFs reales de lenguaje de señas
+        const WORDS = [
+            {
+                id: 1,
+                word: 'UNELLEZ',
+                category: 'Instituciones',
+                // GIFs reales de lenguaje de señas
+                gifSource: 'https://i.postimg.cc/5ysXgRS6/unellez.gif',
+                icon: '🎓',
+                learned: false
+            },
+            {
+                id: 2,
+                word: 'Hola',
+                category: 'Saludos',
+                gifSource: 'https://i.postimg.cc/858Mf9ZV/hola.gif',
+                icon: '👋🏻',
+                learned: false
+            },
+            {
+                id: 3,
+                word: 'Buenos días',
+                category: 'Saludos',
+                gifSource: 'https://i.postimg.cc/jdQbp7pk/buenos_dias.gif',
+                icon: '⛅',
+                learned: false
+            },
+            {
+                id: 4,
+                word: 'Buenas tardes',
+                category: 'Saludos',
+                gifSource: 'https://i.postimg.cc/VkgzCC4j/buenas_tardes.gif',
+                icon: '🌅',
+                learned: false
+            },
+            {
+                id: 5,
+                word: 'Buenas noches',
+                category: 'Saludos',
+                gifSource: 'https://i.postimg.cc/kgs7bbwQ/buenas_noches.gif',
+                icon: '🌃',
+                learned: false
+            },
+            {
+                id: 6,
+                word: 'Gracias',
+                category: 'Cortesía',
+                gifSource: 'https://i.postimg.cc/jdhpgrNK/gracias.gif',
+                icon: '🤲🏻',
+                learned: false
+            },
+            {
+                id: 7,
+                word: 'Por favor',
+                category: 'Cortesía',
+                gifSource: 'https://i.postimg.cc/DzGbh5n9/por_favor.gif',
+                icon: '🙏🏻',
+                learned: false
+            },
+            {
+                id: 8,
+                word: 'Permiso',
+                category: 'Cortesía',
+                gifSource: 'https://i.postimg.cc/xCKHv5Zh/permiso.gif',
+                icon: '🙋🏻‍♂️',
+                learned: false
+            },
+            {
+                id: 9,
+                word: 'Amigo',
+                category: 'Social',
+                gifSource: 'https://i.postimg.cc/L8Dm11vJ/amigo.gif',
+                icon: '🫱🏻🫲🏻',
+                learned: false
+            },
+            {
+                id: 10,
+                word: 'Trabajo',
+                category: 'Lugares',
+                gifSource: 'https://i.postimg.cc/tTHn4PgD/trabajo.gif',
+                icon: '💼',
+                learned: false
+            },
+            {
+                id: 11,
+                word: 'Adiós',
+                category: 'Saludos',
+                gifSource: 'https://i.postimg.cc/4xsJy5vG/adios.gif',
+                icon: '👋🏻',
+                learned: false
+            },
+            {
+                id: 12,
+                word: 'Sí',
+                category: 'Respuestas',
+                gifSource: 'https://i.postimg.cc/GmHy7dN4/si.gif',
+                icon: '✅',
+                learned: false
+            },
+            {
+                id: 13,
+                word: 'No',
+                category: 'Respuestas',
+                gifSource: 'https://i.postimg.cc/W3RgqC5v/no.gif',
+                icon: '❌',
+                learned: false
+            },
+            {
+                id: 14,
+                word: 'Universidad',
+                category: 'Instituciones',
+                gifSource: 'https://i.postimg.cc/BbmjpVBP/universidad.gif',
+                icon: '🏫',
+                learned: false
+            },
+            {
+                id: 15,
+                word: 'Estudiar',
+                category: 'Básicos',
+                gifSource: 'https://i.postimg.cc/sD9rkhk8/estudiar.gif',
+                icon: '📚',
+                learned: false
+            },
+            {
+                id: 16,
+                word: 'Evaluación',
+                category: 'Formativa',
+                gifSource: 'https://i.postimg.cc/5tjWQkXf/evaluacion.gif',
+                icon: '📝',
+                learned: false
+            },
+            {
+                id: 17,
+                word: 'Exposición',
+                category: 'Orales',
+                gifSource: 'https://i.postimg.cc/Yqx5nwgM/exposicion.gif',
+                icon: '🗣️',
+                learned: false
+            },
+            {
+                id: 18,
+                word: 'Investigar',
+                category: 'Exploratoria',
+                gifSource: 'https://i.postimg.cc/VvmtDMQ1/investigar.gif',
+                icon: '🔍',
+                learned: false
+            },
+            {
+                id: 19,
+                word: 'Taller',
+                category: 'Colaborativo',
+                gifSource: 'https://i.postimg.cc/XJcGGJGM/taller.gif',
+                icon: '🔧',
+                learned: false
+            },
+            {
+                id: 20,
+                word: 'Examen',
+                category: 'Escrita',
+                gifSource: 'https://i.postimg.cc/bNHh7t7L/examen.gif',
+                icon: '✏️',
+                learned: false
+            }
+        ];
+
+        // App state
+        let currentWordIndex = 0;
+        let learnedWords = [];
+        let activeTab = 'learn';
+        let isGifPlaying = true;
+        let currentGifElement = null;
+
+        // DOM Elements
+        const screens = {
+            learn: document.getElementById('learn-screen'),
+            words: document.getElementById('words-screen'),
+            profile: document.getElementById('profile-screen')
+        };
+
+        const navItems = document.querySelectorAll('.nav-item');
+        const wordCategory = document.getElementById('word-category');
+        const currentWord = document.getElementById('current-word');
+        const gifPreview = document.getElementById('gif-preview');
+        const gifStatus = document.getElementById('gif-status');
+        const gifFullscreen = document.getElementById('gif-fullscreen');
+        const prevBtn = document.getElementById('prev-btn');
+        const nextBtn = document.getElementById('next-btn');
+        const markLearnedBtn = document.getElementById('mark-learned-btn');
+        const learnedCount = document.getElementById('learned-count');
+        const remainingCount = document.getElementById('remaining-count');
+        const progressPercent = document.getElementById('progress-percent');
+        const progressFill = document.getElementById('progress-fill');
+        const wordsContainer = document.getElementById('words-container');
+        const wordsSubtitle = document.getElementById('words-subtitle');
+        const profileLevel = document.getElementById('profile-level');
+        const profileProgress = document.getElementById('profile-progress');
+        const profileLearned = document.getElementById('profile-learned');
+        const profileTotal = document.getElementById('profile-total');
+        const profileLevelNum = document.getElementById('profile-level-num');
+        const achievementsList = document.getElementById('achievements-list');
+        const motivationText = document.getElementById('motivation-text');
+        const gifModal = document.getElementById('gif-modal');
+        const closeModal = document.getElementById('close-modal');
+        const modalWordTitle = document.getElementById('modal-word-title');
+        const modalWordPlaceholder = document.getElementById('modal-word-placeholder');
+        const gifLoading = document.getElementById('gif-loading');
+        const gifPlaceholder = document.getElementById('gif-placeholder');
+        const modalRestartBtn = document.getElementById('modal-restart-btn');
+        const modalPlayPauseBtn = document.getElementById('modal-play-pause-btn');
+        const modalPlayPauseIcon = document.getElementById('modal-play-pause-icon');
+        const modalPlayPauseText = document.getElementById('modal-play-pause-text');
+        const restartGifBtn = document.getElementById('restart-gif');
+        const playPauseGifBtn = document.getElementById('play-pause-gif');
+
+        // Initialize the app
+        function init() {
+            // Load learned words from localStorage
+            const savedLearnedWords = localStorage.getItem('learnedWords');
+            if (savedLearnedWords) {
+                learnedWords = JSON.parse(savedLearnedWords);
+            } else {
+                learnedWords = [];
+            }
+            
+            // Update UI
+            updateLearnScreen();
+            updateWordsScreen();
+            updateProfileScreen();
+            
+            // Set up event listeners
+            setupEventListeners();
+        }
+
+        // Set up event listeners
+        function setupEventListeners() {
+            // Navigation
+            navItems.forEach(item => {
+                item.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const tab = item.getAttribute('data-tab');
+                    switchTab(tab);
+                });
+            });
+
+            // Learn screen buttons
+            prevBtn.addEventListener('click', goToPrevWord);
+            nextBtn.addEventListener('click', goToNextWord);
+            markLearnedBtn.addEventListener('click', toggleLearnedStatus);
+            gifPreview.addEventListener('click', openGifModal);
+
+            // GIF controls
+            restartGifBtn.addEventListener('click', restartGif);
+            playPauseGifBtn.addEventListener('click', toggleGifPlayPause);
+
+            // Modal
+            closeModal.addEventListener('click', closeGifModal);
+            
+            // Modal GIF controls
+            modalRestartBtn.addEventListener('click', restartModalGif);
+            modalPlayPauseBtn.addEventListener('click', toggleModalGifPlayPause);
+            
+            // Handle clicks outside modal to close
+            gifModal.addEventListener('click', (e) => {
+                if (e.target === gifModal) {
+                    closeGifModal();
+                }
+            });
+
+            // GIF loading events
+            gifPreview.addEventListener('load', () => {
+                gifStatus.textContent = 'Reproduciendo';
+            });
+
+            gifPreview.addEventListener('error', () => {
+                gifStatus.textContent = 'Error al cargar';
+            });
+
+            gifFullscreen.addEventListener('load', () => {
+                gifLoading.style.display = 'none';
+            });
+        }
+
+        // Switch between tabs
+        function switchTab(tab) {
+            activeTab = tab;
+            
+            // Update navigation
+            navItems.forEach(item => {
+                const itemTab = item.getAttribute('data-tab');
+                if (itemTab === tab) {
+                    item.classList.add('active');
+                } else {
+                    item.classList.remove('active');
+                }
+            });
+            
+            // Update screens
+            Object.keys(screens).forEach(screen => {
+                if (screen === tab) {
+                    screens[screen].classList.add('active');
+                } else {
+                    screens[screen].classList.remove('active');
+                }
+            });
+            
+            // Update screens with current data
+            if (tab === 'words') {
+                updateWordsScreen();
+            } else if (tab === 'profile') {
+                updateProfileScreen();
+            }
+        }
+
+        // Update learn screen
+        function updateLearnScreen() {
+            const word = WORDS[currentWordIndex];
+            
+            // Update word info
+            wordCategory.textContent = word.category;
+            currentWord.textContent = word.word;
+            
+            // Update GIF
+            if (word.gifSource) {
+                gifPreview.src = word.gifSource;
+                gifPreview.style.display = 'block';
+                gifStatus.style.display = 'block';
+                gifStatus.textContent = 'Cargando...';
+                isGifPlaying = true;
+                updatePlayPauseButton();
+            } else {
+                gifPreview.style.display = 'none';
+                gifStatus.style.display = 'none';
+            }
+            
+            // Update progress
+            const totalWords = WORDS.length;
+            const learned = learnedWords.length;
+            const remaining = totalWords - learned;
+            const percent = Math.round((learned / totalWords) * 100);
+            
+            learnedCount.textContent = learned;
+            remainingCount.textContent = remaining;
+            progressPercent.textContent = `${percent}%`;
+            progressFill.style.width = `${percent}%`;
+            
+            // Update mark as learned button
+            const isLearned = learnedWords.includes(word.id);
+            markLearnedBtn.textContent = isLearned ? '✓ Aprendida' : 'Marcar como\ncompletado';
+            markLearnedBtn.classList.toggle('learned-button', isLearned);
+            
+            // Update modal content
+            modalWordTitle.textContent = word.word;
+            modalWordPlaceholder.textContent = word.word;
+        }
+
+        // Update words screen
+        function updateWordsScreen() {
+            // Clear container
+            wordsContainer.innerHTML = '';
+            
+            // Update subtitle
+            wordsSubtitle.textContent = `${learnedWords.length} de ${WORDS.length} palabras aprendidas`;
+            
+            // Add word cards
+            WORDS.forEach((word, index) => {
+                const isLearned = learnedWords.includes(word.id);
+                
+                const wordCard = document.createElement('div');
+                wordCard.className = `word-card ${isLearned ? 'learned' : ''}`;
+                wordCard.innerHTML = `
+                    ${isLearned ? '<div class="learned-badge"><i class="fas fa-check"></i></div>' : ''}
+                    <div class="word-card-icon">${word.icon}</div>
+                    <div class="word-card-text">${word.word}</div>
+                    <div class="word-card-category">${word.category}</div>
+                `;
+                
+                wordCard.addEventListener('click', () => {
+                    currentWordIndex = index;
+                    switchTab('learn');
+                    updateLearnScreen();
+                });
+                
+                wordsContainer.appendChild(wordCard);
+            });
+        }
+
+        // Update profile screen
+        function updateProfileScreen() {
+            const totalWords = WORDS.length;
+            const learned = learnedWords.length;
+            const percent = Math.round((learned / totalWords) * 100);
+            const level = Math.floor(learned / 5) + 1;
+            
+            // Update stats
+            profileLevel.textContent = `Nivel ${level}`;
+            profileProgress.textContent = `${percent}%`;
+            profileLearned.textContent = learned;
+            profileTotal.textContent = totalWords;
+            profileLevelNum.textContent = level;
+            
+            // Update motivation text
+            if (learned === totalWords) {
+                motivationText.textContent = '¡Felicidades! Has aprendido todas las palabras.';
+            } else {
+                motivationText.textContent = 'Vas por buen camino. Sigue practicando para desbloquear todos los logros.';
+            }
+            
+            // Update achievements
+            updateAchievements();
+        }
+
+        // Update achievements list
+        function updateAchievements() {
+            const achievements = [
+                {
+                    id: 1,
+                    title: 'Primeros Pasos',
+                    description: 'Aprende 5 palabras',
+                    icon: 'graduation-cap',
+                    target: 5
+                },
+                {
+                    id: 2,
+                    title: 'Estudiante Avanzado',
+                    description: 'Aprende 10 palabras',
+                    icon: 'star',
+                    target: 10
+                },
+                {
+                    id: 3,
+                    title: 'Experto en Señas',
+                    description: 'Aprende 15 palabras',
+                    target: 15,
+                    icon: 'trophy'
+                },
+                {
+                    id: 4,
+                    title: 'Maestro de Señas',
+                    description: 'Aprende todas las palabras',
+                    icon: 'crown',
+                    target: WORDS.length
+                }
+            ];
+            
+            // Clear container
+            achievementsList.innerHTML = '';
+            
+            // Add achievements
+            achievements.forEach(achievement => {
+                const learned = learnedWords.length;
+                const completed = learned >= achievement.target;
+                const progressPercent = Math.min((learned / achievement.target) * 100, 100);
+                
+                const achievementEl = document.createElement('div');
+                achievementEl.className = `achievement ${completed ? 'completed' : ''}`;
+                achievementEl.innerHTML = `
+                    <div class="achievement-icon ${completed ? 'completed' : ''}">
+                        <i class="fas fa-${achievement.icon}"></i>
+                    </div>
+                    <div class="achievement-info">
+                        <div class="achievement-title">${achievement.title}</div>
+                        <div class="achievement-desc">${achievement.description}</div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: ${progressPercent}%"></div>
+                        </div>
+                        <div class="stat-label">${learned}/${achievement.target} palabras</div>
+                    </div>
+                    <i class="fas ${completed ? 'fa-check-circle' : 'fa-circle'}"></i>
+                `;
+                
+                achievementsList.appendChild(achievementEl);
+            });
+        }
+
+        // Navigate to previous word
+        function goToPrevWord() {
+            currentWordIndex = (currentWordIndex - 1 + WORDS.length) % WORDS.length;
+            updateLearnScreen();
+        }
+
+        // Navigate to next word
+        function goToNextWord() {
+            currentWordIndex = (currentWordIndex + 1) % WORDS.length;
+            updateLearnScreen();
+        }
+
+        // Toggle learned status for current word
+        function toggleLearnedStatus() {
+            const wordId = WORDS[currentWordIndex].id;
+            
+            if (learnedWords.includes(wordId)) {
+                // Remove from learned words
+                learnedWords = learnedWords.filter(id => id !== wordId);
+            } else {
+                // Add to learned words
+                learnedWords.push(wordId);
+            }
+            
+            // Save to localStorage
+            localStorage.setItem('learnedWords', JSON.stringify(learnedWords));
+            
+            // Update UI
+            updateLearnScreen();
+            updateWordsScreen();
+            updateProfileScreen();
+        }
+
+        // Open GIF modal
+        function openGifModal() {
+            const word = WORDS[currentWordIndex];
+            
+            // Show modal
+            gifModal.classList.add('active');
+            
+            // Show loading state
+            gifLoading.style.display = 'flex';
+            gifPlaceholder.style.display = 'none';
+            gifFullscreen.style.display = 'block';
+            
+            // Set GIF source if available
+            if (word.gifSource) {
+                gifFullscreen.src = word.gifSource;
+                isGifPlaying = true;
+                updateModalPlayPauseButton();
+            } else {
+                // No GIF available
+                gifLoading.style.display = 'none';
+                gifFullscreen.style.display = 'none';
+                gifPlaceholder.style.display = 'block';
+            }
+            
+            // Update modal title
+            modalWordTitle.textContent = word.word;
+        }
+
+        // Close GIF modal
+        function closeGifModal() {
+            gifModal.classList.remove('active');
+        }
+
+        // Restart GIF (preview)
+        function restartGif() {
+            const word = WORDS[currentWordIndex];
+            if (word.gifSource) {
+                // Forzar recarga del GIF
+                gifPreview.src = '';
+                setTimeout(() => {
+                    gifPreview.src = word.gifSource;
+                    gifStatus.textContent = 'Reproduciendo';
+                    isGifPlaying = true;
+                    updatePlayPauseButton();
+                }, 10);
+            }
+        }
+
+        // Toggle GIF play/pause (preview)
+        function toggleGifPlayPause() {
+            if (!WORDS[currentWordIndex].gifSource) return;
+            
+            // Los GIFs no se pueden pausar realmente, pero podemos simularlo
+            // cambiando entre el GIF y una imagen estática
+            if (isGifPlaying) {
+                // "Pausar" - mostrar imagen estática (primer frame)
+                // En una implementación real, necesitarías el primer frame como imagen
+                gifStatus.textContent = 'Pausado';
+            } else {
+                // "Reanudar" - mostrar el GIF completo
+                gifStatus.textContent = 'Reproduciendo';
+                restartGif(); // Recargar el GIF para reiniciar
+            }
+            isGifPlaying = !isGifPlaying;
+            updatePlayPauseButton();
+        }
+
+        // Update play/pause button (preview)
+        function updatePlayPauseButton() {
+            const playPauseIcon = playPauseGifBtn.querySelector('i');
+            if (isGifPlaying) {
+                playPauseIcon.className = 'fas fa-pause';
+            } else {
+                playPauseIcon.className = 'fas fa-play';
+            }
+        }
+
+        // Restart modal GIF
+        function restartModalGif() {
+            const word = WORDS[currentWordIndex];
+            if (word.gifSource) {
+                gifFullscreen.src = '';
+                setTimeout(() => {
+                    gifFullscreen.src = word.gifSource;
+                    isGifPlaying = true;
+                    updateModalPlayPauseButton();
+                }, 10);
+            }
+        }
+
+        // Toggle modal GIF play/pause
+        function toggleModalGifPlayPause() {
+            if (!WORDS[currentWordIndex].gifSource) return;
+            
+            if (isGifPlaying) {
+                // "Pausar"
+                modalPlayPauseText.textContent = 'Reproducir';
+            } else {
+                // "Reanudar"
+                modalPlayPauseText.textContent = 'Pausar';
+                restartModalGif();
+            }
+            isGifPlaying = !isGifPlaying;
+            updateModalPlayPauseButton();
+        }
+
+        // Update modal play/pause button
+        function updateModalPlayPauseButton() {
+            if (isGifPlaying) {
+                modalPlayPauseIcon.className = 'fas fa-pause control-icon';
+                modalPlayPauseText.textContent = 'Pausar';
+            } else {
+                modalPlayPauseIcon.className = 'fas fa-play control-icon';
+                modalPlayPauseText.textContent = 'Reproducir';
+            }
+        }
+
+        // Initialize the app when DOM is loaded
+        document.addEventListener('DOMContentLoaded', init);
+    </script>
+</body>
+</html>
