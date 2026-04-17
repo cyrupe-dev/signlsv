@@ -322,20 +322,6 @@
         }
     }
 
-    // Mostrar alerta personalizada
-    function showAlert(title, message) {
-        const alertDiv = document.getElementById('customAlert');
-        const msgSpan = document.getElementById('alertMessage');
-        msgSpan.innerText = `${title}\n${message}`;
-        alertDiv.classList.remove('hidden');
-        const okBtn = document.getElementById('alertOkBtn');
-        const closeHandler = () => {
-            alertDiv.classList.add('hidden');
-            okBtn.removeEventListener('click', closeHandler);
-        };
-        okBtn.addEventListener('click', closeHandler, { once: true });
-    }
-
     // Login simulado
     async function loginUser(email, password) {
         const users = JSON.parse(localStorage.getItem(STORAGE_USERS) || '[]');
